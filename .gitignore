@@ -214,6 +214,22 @@ tempCodeRunnerFile.py
 # Marimo
 marimo/_static/
 marimo/_lsp/
+
+
+# Modelos treinados
+modelos/
+*.keras
+*.h5
+*.tflite
+
+# Resultados gerados localmente
+resultados/
+
+# Dados pessoais
+.env
+.env.*
+!.env.example
+
 __marimo__/
 
 # Streamlit
