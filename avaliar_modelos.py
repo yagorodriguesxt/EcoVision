@@ -16,7 +16,7 @@ from sklearn.metrics import (
 DATASET = Path("dataset/test")
 MODELOS = {
     "cnn": Path("modelos/ecovision_cnn.keras"),
-    "mobilenet": Path("modelos/ecovision_mobilenet.keras"),
+    "mobilenetv2": Path("modelos/ecovision_mobilenetv2.keras"),
 }
 IMG_SIZE = (160, 160)
 BATCH_SIZE = 16
@@ -24,9 +24,7 @@ BATCH_SIZE = 16
 
 def main():
     if not DATASET.is_dir():
-        raise FileNotFoundError(
-            "A pasta dataset/test ainda não foi preparada."
-        )
+        raise FileNotFoundError("A pasta dataset/test não existe.")
 
     dados = tf.keras.utils.image_dataset_from_directory(
         DATASET,
@@ -36,13 +34,17 @@ def main():
     )
 
     classes = dados.class_names
-    y_real = np.concatenate([y.numpy() for _, y in dados], axis=0)
+    y_real = np.concatenate(
+        [y.numpy() for _, y in dados],
+        axis=0,
+    )
 
-    Path("resultados").mkdir(exist_ok=True)
+    resultados = Path("resultados")
+    resultados.mkdir(parents=True, exist_ok=True)
 
     for nome, caminho in MODELOS.items():
         if not caminho.is_file():
-            print(f"Modelo ainda não encontrado: {caminho}")
+            print(f"Modelo não encontrado: {caminho}")
             continue
 
         modelo = tf.keras.models.load_model(caminho)
@@ -55,6 +57,7 @@ def main():
             y_previsto,
             labels=range(len(classes)),
         )
+
         relatorio = classification_report(
             y_real,
             y_previsto,
@@ -67,12 +70,13 @@ def main():
         resultado = {
             "modelo": nome,
             "classes": classes,
+            "quantidade_teste": int(len(y_real)),
             "acuracia": float(acuracia),
             "relatorio_por_classe": relatorio,
             "matriz_confusao": matriz.tolist(),
         }
 
-        arquivo_json = Path("resultados") / f"{nome}_metricas.json"
+        arquivo_json = resultados / f"{nome}_metricas.json"
         arquivo_json.write_text(
             json.dumps(resultado, indent=2, ensure_ascii=False),
             encoding="utf-8",
@@ -93,12 +97,15 @@ def main():
 
         for i in range(len(classes)):
             for j in range(len(classes)):
-                ax.text(j, i, str(matriz[i, j]), ha="center", va="center")
+                ax.text(
+                    j, i, str(matriz[i, j]),
+                    ha="center", va="center",
+                )
 
         fig.colorbar(imagem, ax=ax)
         fig.tight_layout()
         fig.savefig(
-            Path("resultados") / f"{nome}_matriz_confusao.png",
+            resultados / f"{nome}_matriz_confusao.png",
             dpi=150,
         )
         plt.close(fig)
