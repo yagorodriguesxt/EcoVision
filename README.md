@@ -1,78 +1,157 @@
 # EcoVision ♻️
 
-**Classificação de resíduos recicláveis por visão computacional**
+Aplicativo móvel para classificação de resíduos recicláveis por meio de inteligência artificial, utilizando visão computacional e um modelo de classificação executado localmente no dispositivo.
 
-## 1. Sobre o projeto
+O EcoVision tem como objetivo auxiliar na identificação de resíduos e incentivar o descarte adequado, contribuindo para práticas mais sustentáveis.
 
-O EcoVision é um projeto acadêmico que propõe utilizar inteligência artificial para classificar resíduos recicláveis a partir de imagens, auxiliando na identificação e na separação de materiais para reciclagem.
+## 1. Classes de classificação
 
-O sistema terá como classes de classificação:
+O aplicativo foi desenvolvido para classificar resíduos em três categorias:
 
 - **Papel**
 - **Plástico**
 - **Metal**
 
-A proposta é desenvolver um aplicativo móvel capaz de realizar a classificação localmente, sem depender de conexão com a internet durante a inferência do modelo.
-
 ## 2. Objetivo
 
-Desenvolver e avaliar um modelo de classificação de imagens e integrá-lo a um aplicativo móvel, explorando técnicas de aprendizado profundo e visão computacional.
+Desenvolver, treinar e avaliar modelos de classificação de imagens e integrá-los a um aplicativo móvel Android capaz de realizar inferências localmente, sem depender de conexão com a internet durante a classificação.
 
-## 3. Metodologia planejada
+O projeto também compara uma rede neural convolucional desenvolvida como referência com uma arquitetura baseada em transferência de aprendizado.
 
-O desenvolvimento seguirá estas etapas:
+## 3. Metodologia
 
-1. Coleta e organização das imagens do conjunto de dados.
-2. Separação dos dados em treinamento, validação e teste.
-3. Desenvolvimento de uma rede neural convolucional (CNN) própria como modelo de referência.
-4. Aplicação de transferência de aprendizado com uma arquitetura compatível, como MobileNetV2.
-5. Aplicação de aumento de dados (*data augmentation*) e ajuste fino (*fine-tuning*).
-6. Avaliação dos modelos com métricas de classificação e matriz de confusão.
-7. Conversão do modelo selecionado para o formato TensorFlow Lite.
-8. Desenvolvimento e teste do aplicativo móvel com funcionamento offline.
+O desenvolvimento do EcoVision contempla as seguintes etapas:
 
-## 4. Requisitos do conjunto de dados
+1. Obtenção e organização das imagens.
+2. Verificação da integridade do conjunto de dados.
+3. Divisão dos dados em treinamento, validação e teste.
+4. Desenvolvimento de uma CNN de referência.
+5. Treinamento com transferência de aprendizado utilizando MobileNetV2.
+6. Aplicação de aumento de dados (*data augmentation*) e ajuste fino (*fine-tuning*).
+7. Avaliação dos modelos por meio de métricas de classificação e matriz de confusão.
+8. Conversão do modelo selecionado para TensorFlow Lite.
+9. Integração do modelo ao aplicativo Android.
+10. Testes de classificação, navegação e histórico.
 
-O conjunto de dados deverá conter, no mínimo, 100 imagens por classe, respeitando a exigência de que pelo menos 25% das imagens de cada classe sejam fotografadas pelo autor do projeto.
+## 4. Conjunto de dados
 
-A divisão planejada será:
+O conjunto inicial utiliza imagens públicas de resíduos recicláveis, organizadas nas classes papel, plástico e metal.
 
-- 70% para treinamento;
-- 15% para validação;
-- 15% para teste.
+A divisão inicial foi realizada com a seguinte proporção:
 
-A origem das imagens e os critérios de divisão serão documentados durante o desenvolvimento.
+- **70%** para treinamento.
+- **15%** para validação.
+- **15%** para teste.
 
-## 5. Funcionalidades previstas
+### Quantidade de imagens na divisão inicial
+
+| Classe | Treinamento | Validação | Teste | Total |
+|---|---:|---:|---:|---:|
+| Metal | 287 | 61 | 62 | 410 |
+| Papel | 415 | 89 | 90 | 594 |
+| Plástico | 337 | 72 | 73 | 482 |
+| **Total** | **1.039** | **222** | **225** | **1.486** |
+
+**Observação:** essa divisão corresponde ao conjunto público utilizado nos experimentos preliminares. Ainda é necessário incorporar fotografias próprias, garantir que pelo menos 25% das imagens de cada classe sejam de autoria do desenvolvedor e realizar a avaliação final com a divisão atualizada.
+
+## 5. Modelos desenvolvidos
+
+### CNN de referência
+
+Foi implementada uma rede neural convolucional treinada a partir do conjunto de dados, servindo como referência para a comparação com modelos de transferência de aprendizado.
+
+### MobileNetV2
+
+Foi utilizada a arquitetura MobileNetV2 com pesos pré-treinados no ImageNet. O treinamento incluiu aumento de dados e ajuste fino de parte das camadas da rede.
+
+A arquitetura foi selecionada considerando o objetivo de executar a classificação em um dispositivo móvel.
+
+## 6. Resultados preliminares
+
+Os primeiros experimentos produziram os seguintes resultados no conjunto de teste inicial:
+
+| Modelo | Acurácia |
+|---|---:|
+| CNN de referência | 67,56% |
+| MobileNetV2 | 94,67% |
+| MobileNetV2 convertido para TensorFlow Lite | 94,67% |
+
+A MobileNetV2 apresentou desempenho superior ao da CNN de referência nesses experimentos, com uma diferença de 27,11 pontos percentuais na acurácia.
+
+A versão convertida para TensorFlow Lite manteve a mesma acurácia observada na avaliação realizada no ambiente de treinamento.
+
+**Importante:** os valores apresentados são preliminares e foram obtidos com o conjunto público inicial. Eles deverão ser reavaliados após a inclusão das fotografias próprias exigidas pelo projeto. Os resultados não representam, por si só, uma validação definitiva do desempenho em condições reais de uso.
+
+## 7. Aplicativo móvel
+
+O aplicativo EcoVision está sendo desenvolvido para Android, com interface em português brasileiro e foco na facilidade de utilização.
+
+As funcionalidades implementadas ou em desenvolvimento incluem:
 
 - Classificação de resíduos por imagem.
 - Captura de imagens pela câmera.
 - Seleção de imagens da galeria.
+- Exibição da classe prevista e da confiança da classificação.
+- Orientações gerais sobre descarte.
 - Histórico de classificações.
-- Inferência local, sem necessidade de internet para classificar imagens.
+- Execução local do modelo TensorFlow Lite.
 
-## 6. Tecnologias previstas
+O aplicativo utiliza o arquivo `ecovision_mobilenetv2.tflite` para realizar as classificações no dispositivo, sem enviar as imagens para um serviço de inteligência artificial na nuvem.
+
+Os testes realizados no ambiente de desenvolvimento incluíram imagens de exemplo das três classes e a verificação da exibição e do armazenamento do histórico. A compatibilidade com diferentes dispositivos e o funcionamento completo da câmera e da galeria ainda precisam ser verificados em condições reais.
+
+## 8. Tecnologias utilizadas
 
 - Python
 - TensorFlow e Keras
 - MobileNetV2
 - TensorFlow Lite
-- Ferramentas de desenvolvimento para aplicativos móveis
+- Google Colab
+- Google Drive
+- Kotlin e Jetpack Compose
 - Git e GitHub
 
-As tecnologias e suas versões poderão ser ajustadas conforme os testes de compatibilidade.
+## 9. Estrutura do repositório
 
-## 7. Status do desenvolvimento
+- `dataset/`: estrutura destinada à organização dos dados de treinamento, validação e teste.
+- `treinar_modelo.py`: treinamento da CNN de referência.
+- `treinar_mobilenet.py`: treinamento da MobileNetV2.
+- `avaliar_modelos.py`: avaliação dos modelos e geração de métricas.
+- `converter_tflite.py`: conversão do modelo para TensorFlow Lite.
+- `PLANEJAMENTO.md`: planejamento técnico do projeto.
+- `ENTREGA-1.md`: documentação da primeira entrega.
+- `requirements.txt`: dependências Python do projeto.
 
-**Etapa atual:** organização inicial do projeto e preparação do ambiente de desenvolvimento.
+Os modelos treinados e os arquivos de resultados são mantidos no ambiente de desenvolvimento enquanto a organização da entrega final é preparada.
 
-As funcionalidades, o treinamento do modelo e as métricas serão registrados à medida que forem implementados e testados.
+## 10. Status do desenvolvimento
 
-## 8. Uso de inteligência artificial generativa
+**Concluído nos experimentos preliminares:**
 
-Ferramentas de inteligência artificial generativa poderão ser utilizadas como apoio ao planejamento, à documentação, à compreensão de conceitos e à elaboração de código. O uso será informado de acordo com as atividades efetivamente realizadas, e os resultados serão revisados e testados durante o desenvolvimento.
+- Organização inicial do conjunto público de imagens.
+- Divisão dos dados em treinamento, validação e teste.
+- Treinamento da CNN de referência.
+- Treinamento e ajuste fino da MobileNetV2.
+- Avaliação dos dois modelos.
+- Conversão do modelo selecionado para TensorFlow Lite.
+- Testes preliminares de classificação no aplicativo Android.
 
----
+**Pendente para a entrega final:**
 
-Projeto acadêmico desenvolvido para estudo de aprendizado profundo, classificação de imagens e aplicações móveis de visão computacional.
-# EcoVision
+- Incorporar as fotografias próprias e cumprir a proporção mínima exigida por classe.
+- Repetir o treinamento e a avaliação com o conjunto definitivo.
+- Documentar a análise dos erros e os resultados finais.
+- Validar o funcionamento offline e testar câmera e galeria em um dispositivo compatível.
+- Finalizar a documentação e gravar o vídeo de demonstração.
+
+## 11. Uso de inteligência artificial generativa
+
+Ferramentas de inteligência artificial generativa foram utilizadas como apoio ao planejamento, à documentação, à organização do desenvolvimento, à elaboração e revisão de código e à resolução de dúvidas técnicas.
+
+O projeto tem finalidade acadêmica e busca demonstrar a aplicação prática de técnicas de aprendizado profundo, classificação de imagens e integração de modelos de inteligência artificial em aplicações móveis.
+
+## 12. Considerações finais
+
+O EcoVision explora a utilização de visão computacional para auxiliar na identificação de resíduos recicláveis. Os experimentos preliminares indicam que a MobileNetV2 é uma alternativa promissora para a classificação das três categorias propostas.
+
+A conclusão do projeto depende da inclusão das fotografias próprias, da avaliação final do modelo e da validação do aplicativo em condições reais de utilização.
