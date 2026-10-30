@@ -1,48 +1,109 @@
-# EcoVision: treinamento e documentação do modelo
+# EcoVision: classificação de resíduos recicláveis
 
-Projeto de classificação de imagens de resíduos em três classes: metal, papel e plástico.
+O EcoVision é um projeto acadêmico que utiliza visão computacional e aprendizado profundo para classificar imagens de resíduos em três categorias: **metal, papel e plástico**.
 
-Aplicativo Android: https://github.com/yagorodriguesxt/EcoVision-Android
+O projeto possui duas partes: treinamento e avaliação dos modelos neste repositório e aplicativo Android para realizar a classificação localmente.
+
+**Aplicativo Android:** https://github.com/yagorodriguesxt/EcoVision-Android
 
 ## Objetivo
-Treinar e avaliar modelos de classificação de imagens e disponibilizar um modelo TensorFlow Lite para uso local no aplicativo.
 
-## Conjunto reduzido registrado
-| Classe | Imagens |
-|---|---:|
-| Metal | 112 |
-| Papel | 120 |
-| Plástico | 120 |
-| **Total** | **352** |
+Apoiar a identificação de materiais recicláveis por meio de imagens, contribuindo para a separação adequada dos resíduos.
 
-A divisão registrada foi de 246 imagens para treino, 53 para validação e 53 para teste. Também foi anotada a inclusão de pelo menos 25% de imagens próprias por classe no treinamento. Confira os scripts e os arquivos finais para confirmar que esses números correspondem à versão entregue.
+## Conjunto de dados utilizado
 
-## Métricas registradas no conjunto de teste reduzido
-| Classe | Precisão | Recall | F1 |
-|---|---:|---:|---:|
-| Metal | 93,75% | 88,24% | 90,91% |
-| Papel | 90,00% | 100,00% | 94,74% |
-| Plástico | 94,12% | 88,89% | 91,43% |
+O conjunto preparado para o experimento contém **300 imagens**, distribuídas igualmente entre as três classes:
 
-Foram anotadas acurácias de 92,45% em Keras e 94,34% em TensorFlow Lite, sobre um conjunto de teste de 53 imagens. Antes de apresentar a diferença como comparação conclusiva, reproduza os resultados e explique a metodologia.
+| Classe | Total de imagens | Fotos próprias |
+|---|---:|---:|
+| Metal | 100 | 28 |
+| Papel | 100 | 30 |
+| Plástico | 100 | 30 |
+| **Total** | **300** | **88** |
 
-## Cuidados
-- Um conjunto de teste pequeno pode não representar imagens reais variadas.
-- Evite imagens duplicadas ou quase idênticas em divisões diferentes.
-- Registre versões de bibliotecas, sementes aleatórias e divisão de dados para permitir reprodução.
-- Não trate as métricas como garantia de desempenho universal.
+As imagens próprias foram incluídas no subconjunto de treinamento. O conjunto também utiliza imagens obtidas de uma base pública de resíduos (TrashNet).
 
-## Modelo TensorFlow Lite
-As anotações técnicas indicam entrada RGB de 160 × 160 pixels, valores [0, 255] e pré-processamento no grafo. Confirme isso no modelo final antes de substituir arquivos.
+### Divisão
 
-Ordem de classes anotada:
-1. Metal
-2. Papel
-3. Plástico
+| Subconjunto | Imagens | Percentual |
+|---|---:|---:|
+| Treinamento | 210 | 70% |
+| Validação | 45 | 15% |
+| Teste | 45 | 15% |
+| **Total** | **300** | **100%** |
 
-Ao alterar o modelo, mantenha os índices alinhados com os rótulos do aplicativo.
+As imagens estão organizadas por subconjunto e classe na estrutura de pastas utilizada pelo TensorFlow. **Os arquivos de imagem do conjunto preparado não estão incluídos neste repositório neste momento**; a demonstração do conjunto e de sua organização é apresentada no vídeo da entrega.
 
-## Reprodutibilidade
-Registre origem do conjunto de dados, contagens por classe, divisão treino/validação/teste, arquitetura baseline, transfer learning, métricas por classe, matriz de confusão, versão do `.tflite` e versões das bibliotecas.
+## Modelos
 
-O teste bem-sucedido do APK em um celular, relatado em 28/10/2026, confirma o funcionamento observado no dispositivo, mas não substitui a avaliação reprodutível do modelo.
+Foram trabalhadas duas abordagens:
+
+- **CNN própria:** modelo de referência (*baseline*).
+- **MobileNetV2:** arquitetura pré-treinada, utilizada com transferência de aprendizado (*transfer learning*) e ajuste fino (*fine-tuning*).
+
+O treinamento da MobileNetV2 utiliza imagens de 160 × 160 pixels, aumento de dados e pré-processamento incorporado ao modelo.
+
+## Resultado registrado
+
+Na avaliação registrada para a MobileNetV2, foram obtidos:
+
+- **Acurácia no conjunto de teste: 84,44% (38 acertos em 45 imagens).**
+- Papel: 15 de 15 imagens classificadas corretamente.
+- Metal: 12 de 15 imagens classificadas corretamente.
+- Plástico: 11 de 15 imagens classificadas corretamente.
+
+O conjunto de teste possui 45 imagens, portanto os resultados representam este experimento e não garantem o mesmo desempenho em todas as condições reais de uso.
+
+## Aplicativo Android
+
+O aplicativo utiliza um modelo TensorFlow Lite para realizar a inferência no próprio dispositivo. A proposta inclui captura de imagem pela câmera e seleção de imagem pela galeria.
+
+Repositório: https://github.com/yagorodriguesxt/EcoVision-Android
+
+## Estrutura do repositório
+
+- `treinar_modelo.py`: treinamento da CNN de referência.
+- `treinar_mobilenet.py`: treinamento e ajuste fino da MobileNetV2.
+- `avaliar_modelos.py`: cálculo de métricas e matriz de confusão.
+- `converter_tflite.py`: conversão do modelo Keras para TensorFlow Lite.
+- `requirements.txt`: dependências Python.
+- `dataset/`: documentação e estrutura de pastas do conjunto de dados.
+
+## Como preparar o ambiente
+
+Instale as dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+Organize o conjunto de dados nas pastas `dataset/train`, `dataset/validation` e `dataset/test`, cada uma contendo as subpastas `metal`, `papel` e `plastico`.
+
+Para treinar a MobileNetV2:
+
+```bash
+python treinar_mobilenet.py
+```
+
+Para avaliar os modelos disponíveis:
+
+```bash
+python avaliar_modelos.py
+```
+
+Para converter o modelo treinado:
+
+```bash
+python converter_tflite.py
+```
+
+## Limitações e cuidados
+
+- O conjunto de teste é pequeno e não representa todas as variações de resíduos, iluminação, fundo e ângulo.
+- A classificação indica semelhança visual com as classes treinadas; não substitui as regras locais de coleta seletiva.
+- Acurácia experimental não é garantia de desempenho universal.
+- A origem e as condições de uso das imagens devem ser respeitadas.
+
+## Etapa 1
+
+A primeira entrega apresenta o tema de descarte de resíduos recicláveis, o conjunto de dados adotado, o aplicativo e suas telas de câmera e galeria por meio de vídeo demonstrativo de até três minutos.
