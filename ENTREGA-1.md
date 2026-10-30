@@ -48,6 +48,3 @@ O código e a documentação do treinamento estão disponíveis no repositório 
 
 https://github.com/yagorodriguesxt/EcoVision
 
-O código do aplicativo Android está organizado em um repositório separado:
-
-https://github.com/yagorodriguesxt/EcoVision-Android
