@@ -1,18 +1,18 @@
 # Planejamento Técnico | EcoVision
 
-## 1. Identificação do projeto
+## 1. Identificação
 
 **Nome:** EcoVision  
 **Área:** Inteligência Artificial e Visão Computacional  
-**Aplicação:** Classificação de resíduos recicláveis por imagens.
+**Aplicação:** classificação de resíduos recicláveis por imagens.
 
 ## 2. Problema e proposta
 
-A identificação correta dos materiais recicláveis pode auxiliar na separação dos resíduos. O EcoVision propõe utilizar um modelo de aprendizado profundo para classificar imagens em três categorias: papel, plástico e metal.
+A identificação correta dos materiais recicláveis pode auxiliar na separação dos resíduos. O EcoVision utiliza um modelo de aprendizado profundo para classificar imagens em três categorias: papel, plástico e metal.
 
-O modelo deverá ser integrado a um aplicativo móvel com processamento local, permitindo realizar classificações sem depender de conexão com a internet durante a inferência.
+O modelo foi integrado a um aplicativo móvel com processamento local, permitindo realizar classificações sem depender de conexão com a internet durante a inferência.
 
-## 3. Classes de classificação
+## 3. Classes
 
 | Classe | Descrição |
 |---|---|
@@ -20,85 +20,42 @@ O modelo deverá ser integrado a um aplicativo móvel com processamento local, p
 | Plástico | Objetos e embalagens de plástico |
 | Metal | Objetos e embalagens de metal |
 
-## 4. Conjunto de dados
+## 4. Conjunto de dados preparado
 
-O conjunto de dados deverá atender aos seguintes requisitos:
+O conjunto utilizado no experimento contém 300 imagens, sendo 100 por classe. Foram incluídas 30 fotos próprias de papel, 30 de plástico e 28 de metal.
 
-- Pelo menos 100 imagens por classe.
-- No mínimo 25% das imagens de cada classe fotografadas pelo autor.
-- Organização das imagens por classe.
-- Separação entre treinamento, validação e teste.
-- Registro da origem das imagens e dos critérios utilizados na organização.
+A divisão foi realizada da seguinte forma:
 
-### Divisão planejada
+| Subconjunto | Quantidade | Percentual |
+|---|---:|---:|
+| Treinamento | 210 | 70% |
+| Validação | 45 | 15% |
+| Teste | 45 | 15% |
 
-| Subconjunto | Percentual |
-|---|---:|
-| Treinamento | 70% |
-| Validação | 15% |
-| Teste | 15% |
+## 5. Modelos
 
-A divisão será realizada evitando que imagens duplicadas ou praticamente idênticas apareçam em subconjuntos diferentes.
+### 5.1 CNN de referência
 
-## 5. Desenvolvimento dos modelos
+Foi desenvolvida uma rede neural convolucional própria para estabelecer uma referência inicial de desempenho.
 
-### 5.1 Modelo de referência
+### 5.2 MobileNetV2
 
-Será desenvolvida uma rede neural convolucional (CNN) própria para estabelecer uma referência inicial de desempenho.
-
-### 5.2 Transferência de aprendizado
-
-Será utilizada uma arquitetura pré-treinada compatível com dispositivos móveis, inicialmente a MobileNetV2.
-
-Serão avaliadas técnicas de aumento de dados (*data augmentation*) e ajuste fino (*fine-tuning*), conforme os resultados obtidos.
+Foi utilizada a arquitetura MobileNetV2 pré-treinada, com transferência de aprendizado, aumento de dados e ajuste fino das camadas finais.
 
 ## 6. Avaliação
 
-A avaliação deverá incluir:
+A avaliação considera acurácia, precisão, revocação (*recall*), F1-score e matriz de confusão.
 
-- Acurácia.
-- Precisão.
-- Revocação (*recall*).
-- F1-score.
-- Matriz de confusão.
-- Análise de erros e exemplos de classificações incorretas.
-
-Os resultados serão calculados com dados de teste que não tenham sido utilizados no treinamento ou na seleção dos hiperparâmetros.
+No experimento registrado com a MobileNetV2, a acurácia no conjunto de teste foi de 84,44%, correspondente a 38 acertos em 45 imagens. Devido ao tamanho reduzido do teste, esse resultado deve ser interpretado como uma medição experimental, não como garantia de desempenho em qualquer situação.
 
 ## 7. Integração com o aplicativo
 
-O modelo selecionado será convertido para TensorFlow Lite (`.tflite`) e integrado ao aplicativo móvel.
+O modelo foi convertido para TensorFlow Lite e integrado ao aplicativo Android.
 
-### Funcionalidades previstas
+As funcionalidades demonstradas incluem captura de imagem pela câmera e seleção de imagem pela galeria, com classificação local no dispositivo.
 
-1. Tela inicial.
-2. Captura de imagens pela câmera.
-3. Seleção de imagens da galeria.
-4. Exibição da classe prevista.
-5. Histórico de classificações.
-6. Funcionamento offline para inferência.
+## 8. Organização e transparência
 
-## 8. Critérios de conclusão
+O desenvolvimento é documentado no GitHub. Os resultados apresentados devem corresponder às execuções efetivamente realizadas, e as limitações do conjunto de dados devem ser consideradas na interpretação das métricas.
 
-O projeto será considerado concluído após a implementação e verificação das seguintes etapas:
-
-- Conjunto de dados documentado conforme os requisitos.
-- CNN própria treinada e avaliada.
-- Modelo com transferência de aprendizado treinado e avaliado.
-- Comparação dos modelos e análise dos erros.
-- Modelo exportado para `.tflite`.
-- Aplicativo integrado e testado.
-- Repositório público com código e instruções de execução.
-- Vídeo demonstrativo das funcionalidades exigidas.
-
-## 9. Organização e transparência
-
-O desenvolvimento será registrado no GitHub por meio de commits que representem etapas reais do trabalho.
-
-Ferramentas de inteligência artificial generativa poderão ser utilizadas como apoio à documentação, ao planejamento e à programação. Seu uso será descrito de acordo com as atividades efetivamente realizadas.
-
-## 10. Status atual
-
-**Fase:** planejamento inicial.
-
-As etapas técnicas, os resultados experimentais e as funcionalidades implementadas serão atualizados durante o desenvolvimento. Nenhum resultado de treinamento ou teste será declarado antes de sua execução e verificação.
+Ferramentas de inteligência artificial generativa podem ser utilizadas como apoio à documentação, ao planejamento e à programação. Seu uso deve ser descrito de acordo com as atividades efetivamente realizadas.
