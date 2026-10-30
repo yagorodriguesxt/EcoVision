@@ -1,40 +1,28 @@
-# Registro de Coleta de Imagens | EcoVision
+# Registro do Conjunto de Dados | EcoVision
 
-## Objetivo
+## Quantidades do conjunto preparado
 
-Acompanhar a coleta das imagens utilizadas na classificação de papel, plástico e metal, registrando a quantidade de imagens e sua origem.
-
-## Meta mínima
-
-| Classe | Total mínimo | Fotos próprias mínimas (25%) |
+| Classe | Total de imagens | Fotos próprias |
 |---|---:|---:|
-| Papel | 100 | 25 |
-| Plástico | 100 | 25 |
-| Metal | 100 | 25 |
-| **Total** | **300** | **75** |
+| Papel | 100 | 30 |
+| Plástico | 100 | 30 |
+| Metal | 100 | 28 |
+| **Total** | **300** | **88** |
 
-## Controle de coleta
+As demais imagens foram obtidas da base pública TrashNet.
 
-| Classe | Imagens coletadas | Fotos próprias | Status |
-|---|---:|---:|---|
-| Papel | 0 | 0 | Pendente |
-| Plástico | 0 | 0 | Pendente |
-| Metal | 0 | 0 | Pendente |
+## Divisão dos dados
 
-## Orientações para a coleta
+| Subconjunto | Papel | Plástico | Metal | Total |
+|---|---:|---:|---:|---:|
+| Treinamento | 70 | 70 | 70 | 210 |
+| Validação | 15 | 15 | 15 | 45 |
+| Teste | 15 | 15 | 15 | 45 |
+| **Total** | **100** | **100** | **100** | **300** |
 
-1. Fotografar os materiais com diferentes fundos, ângulos, distâncias e condições de iluminação.
-2. Priorizar objetos identificáveis e representativos de cada classe.
-3. Registrar quais imagens foram fotografadas pelo autor.
-4. Verificar se existem imagens duplicadas ou praticamente idênticas.
-5. Atualizar este documento conforme a coleta for realizada.
+## Observações
 
-## Cuidados com a divisão dos dados
-
-As imagens deverão ser separadas em treinamento, validação e teste na proporção de 70%, 15% e 15%, respectivamente.
-
-Imagens do mesmo objeto ou de uma mesma sequência de fotografias deverão ser mantidas no mesmo subconjunto sempre que necessário para reduzir o risco de vazamento de dados.
-
-## Status
-
-A coleta ainda precisa ser realizada e validada. As quantidades deste documento representam o ponto de partida do controle, não imagens já coletadas.
+- As fotografias próprias foram destinadas ao treinamento.
+- As imagens foram organizadas por classe e subconjunto.
+- O conjunto de teste possui 45 imagens, portanto as métricas devem ser interpretadas considerando esse tamanho.
+- Os arquivos de imagem não estão incluídos neste repositório no momento; a estrutura e as amostras são apresentadas no vídeo demonstrativo.
