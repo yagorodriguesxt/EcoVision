@@ -1,50 +1,43 @@
 # Conjunto de Dados | EcoVision
 
-## Classes
+## Classes e quantidades
 
-O conjunto de dados será organizado em três classes:
+O conjunto preparado para o experimento contém 300 imagens, distribuídas igualmente:
 
-- `papel`
-- `plastico`
-- `metal`
+| Classe | Total | Fotos próprias |
+|---|---:|---:|
+| `papel` | 100 | 30 |
+| `plastico` | 100 | 30 |
+| `metal` | 100 | 28 |
+| **Total** | **300** | **88** |
 
-## Requisitos
+As imagens próprias foram incluídas no subconjunto de treinamento. O conjunto também utiliza imagens provenientes da base pública TrashNet.
 
-- Mínimo de 100 imagens por classe.
-- Pelo menos 25% das imagens de cada classe serão fotografadas pelo autor.
-- As imagens deverão representar os materiais de forma variada.
-- Imagens duplicadas ou praticamente idênticas deverão ser evitadas.
-- A origem das imagens deverá ser registrada.
+## Divisão utilizada
 
-## Divisão dos dados
+| Subconjunto | Imagens | Percentual |
+|---|---:|---:|
+| Treinamento | 210 | 70% |
+| Validação | 45 | 15% |
+| Teste | 45 | 15% |
+| **Total** | **300** | **100%** |
 
-A divisão planejada é:
-
-| Subconjunto | Percentual |
-|---|---:|
-| Treinamento | 70% |
-| Validação | 15% |
-| Teste | 15% |
-
-A separação deverá ser documentada e realizada antes do treinamento, evitando vazamento de dados entre os subconjuntos.
-
-## Estrutura planejada
+## Estrutura
 
 ```text
 dataset/
-├── README.md
 ├── train/
+│   ├── metal/
 │   ├── papel/
-│   ├── plastico/
-│   └── metal/
+│   └── plastico/
 ├── validation/
+│   ├── metal/
 │   ├── papel/
-│   ├── plastico/
-│   └── metal/
+│   └── plastico/
 └── test/
+    ├── metal/
     ├── papel/
-    ├── plastico/
-    └── metal/
+    └── plastico/
 ```
 
-**Status:** estrutura planejada. As imagens serão adicionadas durante a coleta e organização do conjunto de dados.
+**Observação:** este repositório contém a documentação e as pastas de referência, mas os arquivos de imagem do conjunto preparado não estão versionados nele. O conjunto completo foi utilizado localmente no treinamento e é apresentado na demonstração da entrega.
