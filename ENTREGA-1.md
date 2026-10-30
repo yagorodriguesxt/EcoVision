@@ -3,41 +3,51 @@
 ## 1. Identificação
 
 **Projeto:** EcoVision  
-**Tema:** Classificação de resíduos recicláveis por visão computacional  
-**Classes planejadas:** Papel, plástico e metal  
-**Repositório:** https://github.com/yagorodriguesxt/EcoVision
+**Tema:** Descarte de resíduos recicláveis  
+**Objetivo:** classificar imagens de resíduos em três categorias: papel, plástico e metal.  
+**Repositório público:** https://github.com/yagorodriguesxt/EcoVision
 
-## 2. Objetivo da demonstração
+## 2. Descrição do projeto
 
-Apresentar a proposta do projeto, o conjunto de dados adotado e a interface do aplicativo móvel, demonstrando as funcionalidades que estiverem implementadas e testadas no momento da gravação.
+O EcoVision é um aplicativo Android que utiliza inteligência artificial e visão computacional para identificar resíduos recicláveis por meio de imagens. O usuário pode capturar uma imagem com a câmera do celular ou selecionar uma imagem armazenada na galeria. O modelo realiza a classificação em uma das três categorias trabalhadas: papel, plástico ou metal.
 
-## 3. Roteiro do vídeo
+## 3. Conjunto de dados
 
-**Duração máxima: 3 minutos**
+O conjunto preparado para o projeto possui 300 imagens, distribuídas igualmente entre as três classes:
 
-| Tempo aproximado | Conteúdo |
-|---|---|
-| 0:00 a 0:25 | Apresentação do projeto e do problema abordado |
-| 0:25 a 1:10 | Apresentação das classes e do conjunto de dados |
-| 1:10 a 1:40 | Apresentação da tela inicial do aplicativo |
-| 1:40 a 2:10 | Demonstração da captura de imagem pela câmera, se implementada |
-| 2:10 a 2:40 | Demonstração da seleção de imagem pela galeria, se implementada |
-| 2:40 a 3:00 | Encerramento e apresentação do repositório |
+| Classe | Imagens | Fotos próprias |
+|---|---:|---:|
+| Papel | 100 | 30 |
+| Plástico | 100 | 30 |
+| Metal | 100 | 28 |
+| **Total** | **300** | **88** |
 
-## 4. Evidências necessárias
+A divisão utilizada foi de 70% para treinamento, 15% para validação e 15% para teste.
 
-- Link público do repositório.
-- Conjunto de dados organizado e documentado.
-- Imagens representativas das classes adotadas.
-- Telas do aplicativo.
-- Demonstração das funcionalidades efetivamente implementadas.
+## 4. Aplicativo
 
-## 5. Status da entrega
+O aplicativo Android utiliza um modelo TensorFlow Lite para realizar a classificação localmente. Na demonstração, devem ser apresentadas as telas e as funcionalidades efetivamente implementadas, incluindo:
 
-O roteiro está preparado. A gravação final deverá ser realizada após a implementação das funcionalidades que serão demonstradas.
+- Abertura e apresentação do aplicativo.
+- Captura de imagem pela câmera.
+- Seleção de imagem pela galeria.
+- Exibição do resultado da classificação.
 
-Nenhuma funcionalidade ou resultado experimental será apresentado como concluído sem verificação.
+## 5. Vídeo demonstrativo
 
-## 6. Observações
+O vídeo da Etapa 1 deve ter duração máxima de três minutos e apresentar:
 
-O vídeo deverá respeitar o limite de duração definido nas instruções da atividade. O conteúdo final será ajustado conforme o estado real do projeto.
+1. O tema escolhido: descarte de resíduos.
+2. O conjunto de dados adotado e suas três classes.
+3. As telas do aplicativo.
+4. A demonstração da câmera e da galeria.
+
+## 6. Repositório
+
+O código e a documentação do treinamento estão disponíveis no repositório público:
+
+https://github.com/yagorodriguesxt/EcoVision
+
+O código do aplicativo Android está organizado em um repositório separado:
+
+https://github.com/yagorodriguesxt/EcoVision-Android
